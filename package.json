@@ -4,7 +4,12 @@
   "main": "index.js",
   "license": "Apache-2.0",
   "dependencies": {
-    "openzeppelin-solidity": "^2.0.0"
+    "bignumber.js": "^8.0.1",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "chai-bignumber": "^2.0.2",
+    "openzeppelin-solidity": "^2.0.0",
+    "pify": "^4.0.1"
   },
   "scripts": {
     "test": "truffle test",

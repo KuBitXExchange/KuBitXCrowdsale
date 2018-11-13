@@ -42,7 +42,7 @@ contract TokenSale is CappedCrowdsale, FinalizableCrowdsale, CustomWhitelist {
     emit FundsWithdrawn(msg.sender, _amount);
   }
 
-  function withdrawTokens() public whenNotPaused onlyAdmin {
+  function withdrawTokens() external whenNotPaused onlyAdmin {
     IERC20 t = super.token();
     t.safeTransfer(msg.sender, t.balanceOf(this));
   }

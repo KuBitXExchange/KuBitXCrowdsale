@@ -62,7 +62,6 @@ contract CustomWhitelist is CustomPausable {
     require(_account != address(0));
     if(whitelist[_account]) {
       whitelist[_account] = false;
-
       emit WhitelistRemoved(_account);
     }
   }
