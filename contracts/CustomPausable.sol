@@ -14,9 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-
- pragma solidity 0.4.24;
-
+pragma solidity ^0.4.24;
 
 import "./CustomAdmin.sol";
 
@@ -30,13 +28,13 @@ contract CustomPausable is CustomAdmin {
 
   ///@notice Verifies whether the contract is not paused.
   modifier whenNotPaused() {
-    require(!paused);
+    require(!paused, "Sorry but the contract isn't paused.");
     _;
   }
 
   ///@notice Verifies whether the contract is paused.
   modifier whenPaused() {
-    require(paused);
+    require(paused, "Sorry but the contract is paused.");
     _;
   }
 
