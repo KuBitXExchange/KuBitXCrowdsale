@@ -1,9 +1,18 @@
 {
-  "name": "kubitxSale",
+  "name": "KuBitXCrowdsale",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "openzeppelin-solidity": "^2.0.0"
+  },
+  "scripts": {
+    "test": "truffle test",
+    "solhint": "solhint \"contracts/**/*.sol\"",
+    "solium": "solium -d contracts",
+    "coverage": "./node_modules/.bin/solidity-coverage"
+  },
+  "devDependencies": {
+    "solidity-coverage": "^0.5.11"
   }
 }

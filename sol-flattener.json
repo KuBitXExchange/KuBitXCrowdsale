@@ -1,0 +1,6 @@
+{
+  "source": "./contracts/TokenSale.sol",
+  "destination": "./flattened/TokenSale.sol",
+  "search": "./,../node_modules",
+  "removeRedundantEmptyLines": false
+}
