@@ -26,8 +26,8 @@ contract CustomWhitelist is CustomPausable {
 
   ///@notice Verifies if the account is whitelisted.
   modifier ifWhitelisted(address _account) {
-    require(_account != address(0));
-    require(whitelist[_account]);
+    require(_account != address(0), "Account cannot be zero address");
+    require(whitelist[_account], "account is not whitelisted");
 
     _;
   }
@@ -35,7 +35,7 @@ contract CustomWhitelist is CustomPausable {
   ///@notice Adds an account to the whitelist.
   ///@param _account The wallet address to add to the whitelist.
   function addWhitelist(address _account) external whenNotPaused onlyAdmin {
-    require(_account!=address(0));
+    require(_account!=address(0), "Account cannot be zero address");
 
     if(!whitelist[_account]) {
       whitelist[_account] = true;
@@ -47,7 +47,7 @@ contract CustomWhitelist is CustomPausable {
   ///@notice Adds multiple accounts to the whitelist.
   ///@param _accounts The wallet addresses to add to the whitelist.
   function addManyWhitelist(address[] _accounts) external whenNotPaused onlyAdmin {
-    for(uint8 i=0;i<_accounts.length;i++) {
+    for(uint8 i = 0;i<_accounts.length;i++) {
       if(_accounts[i] != address(0) && !whitelist[_accounts[i]]) {
         whitelist[_accounts[i]] = true;
 
@@ -59,7 +59,7 @@ contract CustomWhitelist is CustomPausable {
   ///@notice Removes an account from the whitelist.
   ///@param _account The wallet address to remove from the whitelist.
   function removeWhitelist(address _account) external whenNotPaused onlyAdmin {
-    require(_account != address(0));
+    require(_account != address(0), "Account cannot be zero address");
     if(whitelist[_account]) {
       whitelist[_account] = false;
       emit WhitelistRemoved(_account);
@@ -69,7 +69,7 @@ contract CustomWhitelist is CustomPausable {
   ///@notice Removes multiple accounts from the whitelist.
   ///@param _accounts The wallet addresses to remove from the whitelist.
   function removeManyWhitelist(address[] _accounts) external whenNotPaused onlyAdmin {
-    for(uint8 i=0;i<_accounts.length;i++) {
+    for(uint8 i = 0;i<_accounts.length;i++) {
       if(_accounts[i] != address(0) && whitelist[_accounts[i]]) {
         whitelist[_accounts[i]] = false;
 

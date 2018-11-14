@@ -12,23 +12,33 @@ contract TokenSale is CappedCrowdsale, FinalizableCrowdsale, CustomWhitelist {
 
   uint256 public bonus;
 
-  constructor(uint256 _openingTime, uint256 _closingTime, uint256 _rate, address _wallet, IERC20 _token, uint256 _bonus, uint256 _cap)
-  TimedCrowdsale(_openingTime, _closingTime) CappedCrowdsale(_cap) Crowdsale(_rate, _wallet, _token) public {
-    require(_bonus > 0);
+  constructor(uint256 _openingTime,
+    uint256 _closingTime,
+    uint256 _rate,
+    address _wallet,
+    IERC20 _token,
+    uint256 _bonus,
+    uint256 _cap)
+    TimedCrowdsale(_openingTime, _closingTime)
+    CappedCrowdsale(_cap)
+    Crowdsale(_rate, _wallet, _token)
+    public {
+    require(_bonus > 0, "Bonus must be greater than 0");
     bonus = _bonus;
   }
 
 
-  function _preValidatePurchase(address _beneficiary, uint256 _weiAmount) internal view whenNotPaused ifWhitelisted(_beneficiary) {
-   super._preValidatePurchase(_beneficiary, _weiAmount);
- }
+  function _preValidatePurchase(address _beneficiary, uint256 _weiAmount) internal view
+      whenNotPaused ifWhitelisted(_beneficiary) {
+    super._preValidatePurchase(_beneficiary, _weiAmount);
+  }
 
 
- function _getTokenAmount(uint256 weiAmount) internal view returns (uint256) {
-   uint256 tokenAmount = super._getTokenAmount(weiAmount);
-   uint256 bonusTokens = tokenAmount.mul(bonus).div(100);
-   return tokenAmount.add(bonusTokens);
- }
+  function _getTokenAmount(uint256 weiAmount) internal view returns (uint256) {
+    uint256 tokenAmount = super._getTokenAmount(weiAmount);
+    uint256 bonusTokens = tokenAmount.mul(bonus).div(100);
+    return tokenAmount.add(bonusTokens);
+  }
 
 
   function _forwardFunds() internal {
@@ -37,7 +47,7 @@ contract TokenSale is CappedCrowdsale, FinalizableCrowdsale, CustomWhitelist {
 
 
   function withdrawFunds(uint256 _amount) external whenNotPaused onlyAdmin {
-    require(_amount <= address(this).balance);
+    require(_amount <= address(this).balance, "amount should be less than the balance");
     msg.sender.transfer(_amount);
     emit FundsWithdrawn(msg.sender, _amount);
   }
@@ -49,7 +59,7 @@ contract TokenSale is CappedCrowdsale, FinalizableCrowdsale, CustomWhitelist {
 
 
   function changeBonus(uint256 _bonus) external whenNotPaused onlyAdmin {
-    require(_bonus > 0);
+    require(_bonus > 0, "Bonus must be greater than 0");
     emit BonusChanged(_bonus, bonus);
     bonus = _bonus;
   }
