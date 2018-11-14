@@ -9,7 +9,8 @@
     "chai-as-promised": "^7.1.1",
     "chai-bignumber": "^2.0.2",
     "openzeppelin-solidity": "^2.0.0",
-    "pify": "^4.0.1"
+    "pify": "^4.0.1",
+    "solhint": "^1.4.0"
   },
   "scripts": {
     "test": "truffle test",
