@@ -99,10 +99,97 @@ contract('Private sale', function(accounts) {
       await crowdsale.pause();
       await crowdsale.changeBonus(10).should.be.rejectedWith(EVMRevert);
     })
+
     it('should not withdraw tokens', async () => {
       await token.transfer(crowdsale.address, 500, { from :accounts[5]});
       await crowdsale.pause();
       await crowdsale.withdrawTokens({from: accounts[0]}).should.be.rejectedWith(EVMRevert);
     })
+
+    it('admin should add whitelist', async () => {
+      await crowdsale.addWhitelist(accounts[1]);
+      await crowdsale.addWhitelist(accounts[2], { from:accounts[1] })
+      .should.be.rejectedWith(EVMRevert);
+    });
   })
+
+  describe('ETH Contribution', async () => {
+    let startTime;
+    let endTime;
+    let rate;
+    let wallet;
+    let bonus;
+    let token;
+    let cap;
+    let crowdsale;
+    beforeEach(async () => {
+      startTime = await latestTime() + duration.days(1);
+      endTime = startTime + duration.years(1);
+      rate = 250
+      wallet = accounts[3];
+      bonus = 10;
+      token = await ERC20.new(accounts[5], ether(10000000));
+      cap = ether(50);
+      crowdsale = await TokenSale.new(
+        startTime,
+        endTime,
+        rate,
+        wallet,
+        token.address,
+        bonus,
+        cap
+      );
+      await crowdsale.addWhitelist(accounts[1]);
+      await token.transfer(crowdsale.address, ether(10000000), {from: accounts[5]});
+    });
+
+
+    it('cannot accept contribution before start date', async () => {
+      await increaseTimeTo(startTime - 1);
+      await crowdsale.sendTransaction({value: ether(1), from: accounts[1] })
+      .should.be.rejectedWith(EVMRevert);
+    })
+
+    it('cannot accept contribution after end date', async () => {
+      await increaseTimeTo(endTime + 10);
+      await crowdsale.sendTransaction({value: ether(1), from: accounts[1] })
+      .should.be.rejectedWith(EVMRevert);
+    });
+
+    it('non whitelisted address cannot contribute', async () => {
+      await increaseTimeTo(startTime + 10);
+      await crowdsale.sendTransaction({ value: ether(1), from: accounts[3]})
+      .should.be.rejectedWith(EVMRevert);
+    })
+
+    it('accept eth', async () => {
+      await increaseTimeTo(startTime + 10);
+      await crowdsale.sendTransaction({ value: ether(1), from: accounts[1] });
+      let expectedBalance = ether(rate + rate * bonus/100);
+      let tokenBalance = await token.balanceOf(accounts[1]);
+      tokenBalance.should.be.bignumber.equal(expectedBalance);
+      let balance = await getBalance(crowdsale.address);
+      balance.should.be.bignumber.equal(ether(1));
+    });
+
+    it('cannot contribute after cap', async() => {
+      await increaseTimeTo(startTime + 10);
+      await crowdsale.sendTransaction({ value: cap, from: accounts[1] });
+      await crowdsale.sendTransaction({ value: ether(1), from:accounts[1]})
+      .should.be.rejectedWith(EVMRevert);
+    })
+
+    it('withdraw funds', async () => {
+      await increaseTimeTo(startTime + 10);
+      await crowdsale.sendTransaction({ value: ether(1), from: accounts[1] })
+      await crowdsale.withdrawFunds(ether(0.5), {from: accounts[1]}).should.be.rejectedWith(EVMRevert);
+      await crowdsale.withdrawFunds(ether(0.5));
+      await crowdsale.withdrawFunds(ether(0.6)).should.be.rejectedWith(EVMRevert);
+      await crowdsale.pause();
+      await crowdsale.withdrawFunds(ether(0.1)).should.be.rejectedWith(EVMRevert);
+
+    })
+
+  });
+
 });

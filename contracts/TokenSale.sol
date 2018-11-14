@@ -47,6 +47,7 @@ contract TokenSale is CappedCrowdsale, FinalizableCrowdsale, CustomWhitelist {
     t.safeTransfer(msg.sender, t.balanceOf(this));
   }
 
+
   function changeBonus(uint256 _bonus) external whenNotPaused onlyAdmin {
     require(_bonus > 0);
     emit BonusChanged(_bonus, bonus);
