@@ -59,7 +59,7 @@ contract TokenSale is CappedCrowdsale, FinalizableCrowdsale, CustomWhitelist {
   }
 
   function _forwardFunds() internal {
-    
+
   }
 
 }
