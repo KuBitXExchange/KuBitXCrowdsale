@@ -145,7 +145,7 @@ contract('Private sale', function(accounts) {
 
 
     it('cannot accept contribution before start date', async () => {
-      await increaseTimeTo(startTime - 1);
+      await increaseTimeTo(startTime - 40);
       await crowdsale.sendTransaction({value: ether(1), from: accounts[1] })
       .should.be.rejectedWith(EVMRevert);
     })
