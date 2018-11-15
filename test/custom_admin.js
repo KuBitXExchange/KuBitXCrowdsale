@@ -49,7 +49,7 @@ contract('Custom Admin', function(accounts) {
       assert.equal(await customAdmin.isAdmin(accounts[3]), true);
     });
 
-    if('must allow an administrator to remove another administrator.', async () => {
+    it('must allow an administrator to remove another administrator.', async () => {
       let customAdmin = await Contract.new();
 
       await customAdmin.addAdmin(accounts[9]);
