@@ -154,6 +154,7 @@ contract('Private sale', function(accounts) {
       await increaseTimeTo(endTime + 10);
       await crowdsale.sendTransaction({value: ether(1), from: accounts[1] })
       .should.be.rejectedWith(EVMRevert);
+      assert(await crowdsale.hasClosed());
     });
 
     it('non whitelisted address cannot contribute', async () => {
@@ -177,6 +178,8 @@ contract('Private sale', function(accounts) {
       await crowdsale.sendTransaction({ value: cap, from: accounts[1] });
       await crowdsale.sendTransaction({ value: ether(1), from:accounts[1]})
       .should.be.rejectedWith(EVMRevert);
+      assert(await crowdsale.hasClosed());
+
     })
 
     it('withdraw funds', async () => {
@@ -187,8 +190,8 @@ contract('Private sale', function(accounts) {
       await crowdsale.withdrawFunds(ether(0.6)).should.be.rejectedWith(EVMRevert);
       await crowdsale.pause();
       await crowdsale.withdrawFunds(ether(0.1)).should.be.rejectedWith(EVMRevert);
-
     })
+
 
   });
 
