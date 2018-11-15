@@ -81,6 +81,13 @@ contract('Private sale', function(accounts) {
       await crowdsale.changeBonus(0, {from: accounts[0]}).should.be.rejectedWith(EVMRevert);
     });
 
+    it('should change the bonus', async () => {
+      await crowdsale.changeRate(10);
+      assert((await crowdsale.rate()).toNumber() === 10);
+      await crowdsale.changeRate(40, {from: accounts[1]}).should.be.rejectedWith(EVMRevert);
+      await crowdsale.changeRate(0, {from: accounts[0]}).should.be.rejectedWith(EVMRevert);
+    });
+
     it('should withdraw tokens', async () => {
       await token.transfer(crowdsale.address, 500, { from :accounts[5]});
       await crowdsale.withdrawTokens();
