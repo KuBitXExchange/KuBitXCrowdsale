@@ -10,8 +10,10 @@ contract TokenSale is CappedCrowdsale, FinalizableCrowdsale, CustomWhitelist {
 
   event FundsWithdrawn(address indexed _wallet, uint256 _amount);
   event BonusChanged(uint256 _newBonus, uint256 _oldBonus);
+  event RateChanged(uint256 _rate, uint256 _oldRate);
 
   uint256 public bonus;
+  uint256 public rate;
 
   constructor(uint256 _openingTime,
     uint256 _closingTime,
@@ -24,6 +26,7 @@ contract TokenSale is CappedCrowdsale, FinalizableCrowdsale, CustomWhitelist {
     TimedCrowdsale(_openingTime, _closingTime) CappedCrowdsale(_cap) Crowdsale(_rate, _wallet, _token) {
     require(_bonus > 0, "Bonus must be greater than 0");
     bonus = _bonus;
+    rate = _rate;
   }
 
   function withdrawFunds(uint256 _amount) external whenNotPaused onlyAdmin {
@@ -43,6 +46,13 @@ contract TokenSale is CappedCrowdsale, FinalizableCrowdsale, CustomWhitelist {
     bonus = _bonus;
   }
 
+  function changeRate(uint256 _rate) external whenNotPaused onlyAdmin {
+    require(_rate > 0, "rate must be greater than 0");
+    emit RateChanged(_rate, rate);
+    rate = _rate;
+  }
+
+
   function hasClosed() public view returns (bool) {
     return super.hasClosed() || super.capReached();
   }
@@ -53,13 +63,13 @@ contract TokenSale is CappedCrowdsale, FinalizableCrowdsale, CustomWhitelist {
   }
 
   function _getTokenAmount(uint256 weiAmount) internal view returns (uint256) {
-    uint256 tokenAmount = super._getTokenAmount(weiAmount);
+    uint256 tokenAmount = weiAmount.mul(rate);
     uint256 bonusTokens = tokenAmount.mul(bonus).div(100);
     return tokenAmount.add(bonusTokens);
   }
 
   function _forwardFunds() internal {
-    
+
   }
 
 }
