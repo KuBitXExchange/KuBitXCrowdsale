@@ -1,6 +1,6 @@
 # This contract enables to create multiple contract administrators. (CustomAdmin.sol)
 
-View Source: [Users/biod/Desktop/projects/KuBitXCrowdsale/contracts/CustomAdmin.sol](../Users/biod/Desktop/projects/KuBitXCrowdsale/contracts/CustomAdmin.sol)
+View Source: [contracts/CustomAdmin.sol](../contracts/CustomAdmin.sol)
 
 **↗ Extends: [Ownable](Ownable.md)**
 **↘ Derived Contracts: [CustomPausable](CustomPausable.md)**
@@ -53,6 +53,7 @@ Adds the specified address to the list of administrators.
 
 ```js
 function addAdmin(address _address) external nonpayable onlyAdmin 
+returns(bool)
 ```
 
 **Arguments**
@@ -67,6 +68,7 @@ Adds multiple addresses to the administrator list.
 
 ```js
 function addManyAdmins(address[] _accounts) external nonpayable onlyAdmin 
+returns(bool)
 ```
 
 **Arguments**
@@ -81,6 +83,7 @@ Removes the specified address from the list of administrators.
 
 ```js
 function removeAdmin(address _address) external nonpayable onlyAdmin 
+returns(bool)
 ```
 
 **Arguments**
@@ -95,6 +98,7 @@ Removes multiple addresses to the administrator list.
 
 ```js
 function removeManyAdmins(address[] _accounts) external nonpayable onlyAdmin 
+returns(bool)
 ```
 
 **Arguments**
@@ -125,6 +129,8 @@ returns(bool)
 * [CustomAdmin](CustomAdmin.md)
 * [CustomPausable](CustomPausable.md)
 * [CustomWhitelist](CustomWhitelist.md)
+* [ERC20](ERC20.md)
+* [ERC20Mock](ERC20Mock.md)
 * [FinalizableCrowdsale](FinalizableCrowdsale.md)
 * [IERC20](IERC20.md)
 * [Migrations](Migrations.md)

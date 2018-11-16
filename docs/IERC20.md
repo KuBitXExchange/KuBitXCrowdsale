@@ -2,6 +2,8 @@
 
 View Source: [openzeppelin-solidity/contracts/token/ERC20/IERC20.sol](../openzeppelin-solidity/contracts/token/ERC20/IERC20.sol)
 
+**↘ Derived Contracts: [ERC20](ERC20.md)**
+
 **IERC20**
 
 see https://github.com/ethereum/EIPs/issues/20
@@ -24,6 +26,8 @@ event Approval(address indexed owner, address indexed spender, uint256  value);
 
 ### totalSupply
 
+⤿ Overridden Implementation(s): [ERC20.totalSupply](ERC20.md#totalsupply)
+
 ```js
 function totalSupply() external view
 returns(uint256)
@@ -35,6 +39,8 @@ returns(uint256)
 | ------------- |------------- | -----|
 
 ### balanceOf
+
+⤿ Overridden Implementation(s): [ERC20.balanceOf](ERC20.md#balanceof)
 
 ```js
 function balanceOf(address who) external view
@@ -48,6 +54,8 @@ returns(uint256)
 | who | address |  | 
 
 ### allowance
+
+⤿ Overridden Implementation(s): [ERC20.allowance](ERC20.md#allowance)
 
 ```js
 function allowance(address owner, address spender) external view
@@ -63,6 +71,8 @@ returns(uint256)
 
 ### transfer
 
+⤿ Overridden Implementation(s): [ERC20.transfer](ERC20.md#transfer)
+
 ```js
 function transfer(address to, uint256 value) external nonpayable
 returns(bool)
@@ -77,6 +87,8 @@ returns(bool)
 
 ### approve
 
+⤿ Overridden Implementation(s): [ERC20.approve](ERC20.md#approve)
+
 ```js
 function approve(address spender, uint256 value) external nonpayable
 returns(bool)
@@ -90,6 +102,8 @@ returns(bool)
 | value | uint256 |  | 
 
 ### transferFrom
+
+⤿ Overridden Implementation(s): [ERC20.transferFrom](ERC20.md#transferfrom)
 
 ```js
 function transferFrom(address from, address to, uint256 value) external nonpayable
@@ -111,6 +125,8 @@ returns(bool)
 * [CustomAdmin](CustomAdmin.md)
 * [CustomPausable](CustomPausable.md)
 * [CustomWhitelist](CustomWhitelist.md)
+* [ERC20](ERC20.md)
+* [ERC20Mock](ERC20Mock.md)
 * [FinalizableCrowdsale](FinalizableCrowdsale.md)
 * [IERC20](IERC20.md)
 * [Migrations](Migrations.md)

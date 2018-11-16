@@ -269,6 +269,8 @@ function _forwardFunds() internal nonpayable
 * [CustomAdmin](CustomAdmin.md)
 * [CustomPausable](CustomPausable.md)
 * [CustomWhitelist](CustomWhitelist.md)
+* [ERC20](ERC20.md)
+* [ERC20Mock](ERC20Mock.md)
 * [FinalizableCrowdsale](FinalizableCrowdsale.md)
 * [IERC20](IERC20.md)
 * [Migrations](Migrations.md)

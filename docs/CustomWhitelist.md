@@ -1,6 +1,6 @@
 # This contract enables to maintain a list of whitelisted wallets. (CustomWhitelist.sol)
 
-View Source: [Users/biod/Desktop/projects/KuBitXCrowdsale/contracts/CustomWhitelist.sol](../Users/biod/Desktop/projects/KuBitXCrowdsale/contracts/CustomWhitelist.sol)
+View Source: [contracts/CustomWhitelist.sol](../contracts/CustomWhitelist.sol)
 
 **↗ Extends: [CustomPausable](CustomPausable.md)**
 **↘ Derived Contracts: [TokenSale](TokenSale.md)**
@@ -46,6 +46,7 @@ modifier ifWhitelisted(address _account) internal
 - [addManyWhitelist(address[] _accounts)](#addmanywhitelist)
 - [removeWhitelist(address _account)](#removewhitelist)
 - [removeManyWhitelist(address[] _accounts)](#removemanywhitelist)
+- [isWhitelisted(address _address)](#iswhitelisted)
 
 ### addWhitelist
 
@@ -53,6 +54,7 @@ Adds an account to the whitelist.
 
 ```js
 function addWhitelist(address _account) external nonpayable whenNotPaused onlyAdmin 
+returns(bool)
 ```
 
 **Arguments**
@@ -67,6 +69,7 @@ Adds multiple accounts to the whitelist.
 
 ```js
 function addManyWhitelist(address[] _accounts) external nonpayable whenNotPaused onlyAdmin 
+returns(bool)
 ```
 
 **Arguments**
@@ -81,6 +84,7 @@ Removes an account from the whitelist.
 
 ```js
 function removeWhitelist(address _account) external nonpayable whenNotPaused onlyAdmin 
+returns(bool)
 ```
 
 **Arguments**
@@ -95,6 +99,7 @@ Removes multiple accounts from the whitelist.
 
 ```js
 function removeManyWhitelist(address[] _accounts) external nonpayable whenNotPaused onlyAdmin 
+returns(bool)
 ```
 
 **Arguments**
@@ -103,6 +108,21 @@ function removeManyWhitelist(address[] _accounts) external nonpayable whenNotPau
 | ------------- |------------- | -----|
 | _accounts | address[] | The wallet addresses to remove from the whitelist. | 
 
+### isWhitelisted
+
+Checks if an address is whitelisted.
+
+```js
+function isWhitelisted(address _address) public view
+returns(bool)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _address | address |  | 
+
 ## Contracts
 
 * [CappedCrowdsale](CappedCrowdsale.md)
@@ -110,6 +130,8 @@ function removeManyWhitelist(address[] _accounts) external nonpayable whenNotPau
 * [CustomAdmin](CustomAdmin.md)
 * [CustomPausable](CustomPausable.md)
 * [CustomWhitelist](CustomWhitelist.md)
+* [ERC20](ERC20.md)
+* [ERC20Mock](ERC20Mock.md)
 * [FinalizableCrowdsale](FinalizableCrowdsale.md)
 * [IERC20](IERC20.md)
 * [Migrations](Migrations.md)

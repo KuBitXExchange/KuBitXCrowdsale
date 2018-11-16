@@ -96,6 +96,18 @@ contract('Private sale', function(accounts) {
       await crowdsale.withdrawTokens({from: accounts[3]}).should.be.rejectedWith(EVMRevert);
     })
 
+    it('should allow an admin to recover accidentally sent ERC20 tokens', async () => {
+      let token = await ERC20.new(accounts[5], ether(10000000));
+      await token.transfer(crowdsale.address, ether(1), {from: accounts[5]});
+      
+      crowdsale.withdrawERC20(token.address, { from: accounts[1] }).should.be.rejectedWith(EVMRevert);
+
+      await crowdsale.addAdmin(accounts[1]);
+
+      crowdsale.withdrawERC20(token.address, { from: accounts[1] });
+      (await token.balanceOf(accounts[1])).should.be.bignumber.equal(ether(1));
+    })
+    
     it('should pause', async() => {
       await crowdsale.pause({from: accounts[1]}).should.be.rejectedWith(EVMRevert);
       await crowdsale.pause();

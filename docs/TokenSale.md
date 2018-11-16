@@ -1,10 +1,12 @@
-# TokenSale.sol
+# TokenSale (TokenSale.sol)
 
-View Source: [Users/biod/Desktop/projects/KuBitXCrowdsale/contracts/TokenSale.sol](../Users/biod/Desktop/projects/KuBitXCrowdsale/contracts/TokenSale.sol)
+View Source: [contracts/TokenSale.sol](../contracts/TokenSale.sol)
 
 **↗ Extends: [CappedCrowdsale](CappedCrowdsale.md), [FinalizableCrowdsale](FinalizableCrowdsale.md), [CustomWhitelist](CustomWhitelist.md)**
 
 **TokenSale**
+
+Crowdsale contract for KubitX
 
 ## Constructor
 
@@ -19,6 +21,7 @@ constructor(uint256 _openingTime, uint256 _closingTime) public
 
 ```js
 uint256 public bonus;
+uint256 public rate;
 
 ```
 
@@ -27,6 +30,7 @@ uint256 public bonus;
 ```js
 event FundsWithdrawn(address indexed _wallet, uint256  _amount);
 event BonusChanged(uint256  _newBonus, uint256  _oldBonus);
+event RateChanged(uint256  _rate, uint256  _oldRate);
 ```
 
 | Name        | Type           | Description  |
@@ -36,58 +40,19 @@ event BonusChanged(uint256  _newBonus, uint256  _oldBonus);
 
 ## Functions
 
-- [_preValidatePurchase(address _beneficiary, uint256 _weiAmount)](#_prevalidatepurchase)
-- [_getTokenAmount(uint256 weiAmount)](#_gettokenamount)
-- [_forwardFunds()](#_forwardfunds)
 - [withdrawFunds(uint256 _amount)](#withdrawfunds)
 - [withdrawTokens()](#withdrawtokens)
+- [withdrawERC20(address _token)](#withdrawerc20)
 - [changeBonus(uint256 _bonus)](#changebonus)
+- [changeRate(uint256 _rate)](#changerate)
 - [hasClosed()](#hasclosed)
-
-### _preValidatePurchase
-
-⤾ overrides [TimedCrowdsale._preValidatePurchase](TimedCrowdsale.md#_prevalidatepurchase)
-
-```js
-function _preValidatePurchase(address _beneficiary, uint256 _weiAmount) internal view whenNotPaused ifWhitelisted 
-```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-| _beneficiary | address |  | 
-| _weiAmount | uint256 |  | 
-
-### _getTokenAmount
-
-⤾ overrides [Crowdsale._getTokenAmount](Crowdsale.md#_gettokenamount)
-
-```js
-function _getTokenAmount(uint256 weiAmount) internal view
-returns(uint256)
-```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-| weiAmount | uint256 |  | 
-
-### _forwardFunds
-
-⤾ overrides [Crowdsale._forwardFunds](Crowdsale.md#_forwardfunds)
-
-```js
-function _forwardFunds() internal nonpayable
-```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
+- [_preValidatePurchase(address _beneficiary, uint256 _weiAmount)](#_prevalidatepurchase)
+- [_getTokenAmount(uint256 _weiAmount)](#_gettokenamount)
+- [_forwardFunds()](#_forwardfunds)
 
 ### withdrawFunds
+
+This feature enables the admins to withdraw Ethers held in this contract.
 
 ```js
 function withdrawFunds(uint256 _amount) external nonpayable whenNotPaused onlyAdmin 
@@ -97,12 +62,14 @@ function withdrawFunds(uint256 _amount) external nonpayable whenNotPaused onlyAd
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| _amount | uint256 |  | 
+| _amount | uint256 | Amount of Ethers in wei to withdraw. | 
 
 ### withdrawTokens
 
+Withdraw the tokens remaining tokens from the contract.
+
 ```js
-function withdrawTokens() public nonpayable whenNotPaused onlyAdmin 
+function withdrawTokens() external nonpayable whenNotPaused onlyAdmin 
 ```
 
 **Arguments**
@@ -110,7 +77,23 @@ function withdrawTokens() public nonpayable whenNotPaused onlyAdmin
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
+### withdrawERC20
+
+Enables admins to withdraw accidentally sent ERC20 token to the contract.
+
+```js
+function withdrawERC20(address _token) external nonpayable whenNotPaused onlyAdmin 
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _token | address |  | 
+
 ### changeBonus
+
+Changes the bonus.
 
 ```js
 function changeBonus(uint256 _bonus) external nonpayable whenNotPaused onlyAdmin 
@@ -120,15 +103,80 @@ function changeBonus(uint256 _bonus) external nonpayable whenNotPaused onlyAdmin
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| _bonus | uint256 |  | 
+| _bonus | uint256 | The new bonus to set. | 
+
+### changeRate
+
+Changes the rate.
+
+```js
+function changeRate(uint256 _rate) external nonpayable whenNotPaused onlyAdmin 
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _rate | uint256 | The new rate to set. | 
 
 ### hasClosed
 
 ⤾ overrides [TimedCrowdsale.hasClosed](TimedCrowdsale.md#hasclosed)
 
+Checks if the crowdsale has closed.
+
 ```js
 function hasClosed() public view
 returns(bool)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+### _preValidatePurchase
+
+⤾ overrides [TimedCrowdsale._preValidatePurchase](TimedCrowdsale.md#_prevalidatepurchase)
+
+This is called before determining the token amount.
+
+```js
+function _preValidatePurchase(address _beneficiary, uint256 _weiAmount) internal view whenNotPaused ifWhitelisted 
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _beneficiary | address | Contributing address of ETH | 
+| _weiAmount | uint256 | ETH contribution | 
+
+### _getTokenAmount
+
+⤾ overrides [Crowdsale._getTokenAmount](Crowdsale.md#_gettokenamount)
+
+Returns the number of tokens for ETH
+
+```js
+function _getTokenAmount(uint256 _weiAmount) internal view
+returns(uint256)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _weiAmount | uint256 | ETH contribution | 
+
+### _forwardFunds
+
+⤾ overrides [Crowdsale._forwardFunds](Crowdsale.md#_forwardfunds)
+
+overrided to store the funds in the contract itself
+
+```js
+function _forwardFunds() internal nonpayable
 ```
 
 **Arguments**
@@ -143,6 +191,8 @@ returns(bool)
 * [CustomAdmin](CustomAdmin.md)
 * [CustomPausable](CustomPausable.md)
 * [CustomWhitelist](CustomWhitelist.md)
+* [ERC20](ERC20.md)
+* [ERC20Mock](ERC20Mock.md)
 * [FinalizableCrowdsale](FinalizableCrowdsale.md)
 * [IERC20](IERC20.md)
 * [Migrations](Migrations.md)

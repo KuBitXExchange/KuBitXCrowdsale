@@ -1,6 +1,6 @@
 # This contract enables you to create pausable mechanism to stop in case of emergency. (CustomPausable.sol)
 
-View Source: [Users/biod/Desktop/projects/KuBitXCrowdsale/contracts/CustomPausable.sol](../Users/biod/Desktop/projects/KuBitXCrowdsale/contracts/CustomPausable.sol)
+View Source: [contracts/CustomPausable.sol](../contracts/CustomPausable.sol)
 
 **↗ Extends: [CustomAdmin](CustomAdmin.md)**
 **↘ Derived Contracts: [CustomWhitelist](CustomWhitelist.md)**
@@ -91,6 +91,8 @@ function unpause() external nonpayable onlyAdmin whenPaused
 * [CustomAdmin](CustomAdmin.md)
 * [CustomPausable](CustomPausable.md)
 * [CustomWhitelist](CustomWhitelist.md)
+* [ERC20](ERC20.md)
+* [ERC20Mock](ERC20Mock.md)
 * [FinalizableCrowdsale](FinalizableCrowdsale.md)
 * [IERC20](IERC20.md)
 * [Migrations](Migrations.md)

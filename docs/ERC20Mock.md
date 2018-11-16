@@ -1,61 +1,55 @@
-# Migrations.sol
+# ERC20Mock.sol
 
-View Source: [contracts/Migrations.sol](../contracts/Migrations.sol)
+View Source: [contracts/mocks/ERC20Mock.sol](../contracts/mocks/ERC20Mock.sol)
 
-**Migrations**
+**↗ Extends: [ERC20](ERC20.md)**
 
-## Contract Members
-**Constants & Variables**
-
-```js
-address public owner;
-uint256 public last_completed_migration;
-
-```
-
-## Modifiers
-
-- [restricted](#restricted)
-
-### restricted
-
-```js
-modifier restricted() internal
-```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
+**ERC20Mock**
 
 ## Functions
 
-- [setCompleted(uint256 completed)](#setcompleted)
-- [upgrade(address new_address)](#upgrade)
+- [mint(address account, uint256 amount)](#mint)
+- [burn(address account, uint256 amount)](#burn)
+- [burnFrom(address account, uint256 amount)](#burnfrom)
 
-### setCompleted
+### mint
 
 ```js
-function setCompleted(uint256 completed) public nonpayable restricted 
+function mint(address account, uint256 amount) public nonpayable
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| completed | uint256 |  | 
+| account | address |  | 
+| amount | uint256 |  | 
 
-### upgrade
+### burn
 
 ```js
-function upgrade(address new_address) public nonpayable restricted 
+function burn(address account, uint256 amount) public nonpayable
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| new_address | address |  | 
+| account | address |  | 
+| amount | uint256 |  | 
+
+### burnFrom
+
+```js
+function burnFrom(address account, uint256 amount) public nonpayable
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| account | address |  | 
+| amount | uint256 |  | 
 
 ## Contracts
 
